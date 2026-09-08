@@ -19,23 +19,31 @@ public class TestBase {
         Configuration.browser = BrowserstackDriver.class.getName();
         Configuration.browserSize = null;
         Configuration.timeout = 30000;
+        Configuration.screenshots = false;
+        Configuration.savePageSource = false;
     }
 
     @BeforeEach
     void beforeEach() {
-        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
+        SelenideLogger.addListener("AllureSelenide",
+                new AllureSelenide().screenshots(false).savePageSource(false));
         open();
     }
 
     @AfterEach
     void addAttachments() {
-        String sessionId = Selenide.sessionId().toString();
-        System.out.println(sessionId);
-
-//        Attach.screenshotAs("Last screenshot"); // todo fix
-        Attach.pageSource();
+        String sessionId = null;
+        try {
+            sessionId = Selenide.sessionId().toString();
+            System.out.println(sessionId);
+        } catch (Exception ignored) {
+        }
         closeWebDriver();
-
-        Attach.addVideo(sessionId);
+        if (sessionId != null) {
+            try {
+                Attach.addVideo(sessionId);
+            } catch (Exception ignored) {
+            }
+        }
     }
 }
