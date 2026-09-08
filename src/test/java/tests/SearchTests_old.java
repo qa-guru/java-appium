@@ -41,12 +41,12 @@ public class SearchTests_old {
         RemoteWebDriver driver = new RemoteWebDriver(
                 new URL("https://" + USER + ":" + KEY + "@hub.browserstack.com/wd/hub"), caps);
 
-        WebElement searchElement = (WebElement) new WebDriverWait(driver, Duration.ofSeconds(30)).until(
-                ExpectedConditions.elementToBeClickable(
+        WebElement searchElement = new WebDriverWait(driver, Duration.ofSeconds(30)).until(
+                ExpectedConditions.presenceOfElementLocated(
                         AppiumBy.accessibilityId("Search Wikipedia")));
         searchElement.click();
-        WebElement insertTextElement = (WebElement) new WebDriverWait(driver, Duration.ofSeconds(30)).until(
-                ExpectedConditions.elementToBeClickable(
+        WebElement insertTextElement = new WebDriverWait(driver, Duration.ofSeconds(30)).until(
+                ExpectedConditions.presenceOfElementLocated(
                         AppiumBy.id("org.wikipedia.alpha:id/search_src_text")));
         insertTextElement.sendKeys("Appium");
         Thread.sleep(5000);
